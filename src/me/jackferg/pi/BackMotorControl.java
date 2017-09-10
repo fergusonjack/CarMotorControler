@@ -49,7 +49,7 @@ public class BackMotorControl {
 		try {
 			Thread.sleep((long) time);
 		} catch (InterruptedException e) {
-			System.out.println("moving forward, back motor error");
+			System.out.println("moving back, back motor error");
 		}
 		Motor2B.low();
 		Motor2E.low();

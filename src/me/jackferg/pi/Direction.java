@@ -36,7 +36,7 @@ public class Direction {
 		try {
 			Thread.sleep((long) time);
 		} catch (InterruptedException e) {
-			System.out.println("moving forward, back motor error");
+			System.out.println("moving left, front motor error");
 		}
 		Motor1A.low();
 		Motor1E.low();
@@ -49,7 +49,7 @@ public class Direction {
 		try {
 			Thread.sleep((long) time);
 		} catch (InterruptedException e) {
-			System.out.println("moving forward, back motor error");
+			System.out.println("moving right, front motor error");
 		}
 		Motor1B.low();
 		Motor1E.low();
