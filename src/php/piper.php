@@ -10,6 +10,8 @@ ob_implicit_flush();
 
 $address = '127.0.0.1';
 $port = 4444;
+$inside = true;
+$outside = true;
 
 if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
     echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . "\n";
@@ -23,30 +25,40 @@ if (socket_listen($sock, 5) === false) {
     echo "socket_listen() failed: reason: " . socket_strerror(socket_last_error($sock)) . "\n";
 }
 
-
-$myfile = fopen("testfile.txt", "w");
-if (isset($_GET['a'])){
-    switch (htmlspecialchars($_GET["a"])){
-
-        case "up":
-            fwrite($myfile, "up");
-            break;
-        case "left":
-            fwrite($myfile, "left");
-            break;
-        case "right":
-            fwrite($myfile, "right");
-            break;
-        case "down":
-            fwrite($myfile, "down");
-            break;
-        default:
-            fwrite($myfile, "def");
-            break;
+do {
+    if (($msgsock = socket_accept($sock)) === false) {
+        echo "socket_accept() failed: reason: " . socket_strerror(socket_last_error($sock)) . "\n";
+        break;
     }
-    fclose($myfile);
-} else {
-    fwrite($myfile, "1234");
-    fclose($myfile);
-}
+
+    do {
+        if (isset($_GET['a'])){
+            switch (htmlspecialchars($_GET["a"])){
+
+                case "up":
+                    socket_write($msgsock, "up",2);
+                    break;
+                case "left":
+                    socket_write($msgsock, "left", 4);
+                    break;
+                case "right":
+                    socket_write($msgsock, "right", 5);
+                    break;
+                case "down":
+                    socket_write($msgsock, "down", 4);
+                    break;
+                default:
+                    fwrite($myfile, "def");
+                    break;
+            }
+
+        } else {
+            continue;
+        }
+
+    } while ($inside);
+    socket_close($msgsock);
+} while ($outside);
+
+socket_close($sock);
 ?>

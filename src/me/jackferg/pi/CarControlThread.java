@@ -24,15 +24,19 @@ public class CarControlThread extends Thread {
 			switch (s) {
 			case "up":
 				backMotorControl.forward(200);
+				System.out.println("forward");
 				break;
 			case "down":
 				backMotorControl.back(200);
+				System.out.println("back");
 				break;
 			case "left":
 				directionMotorControl.left(200);
+				System.out.println("left");
 				break;
 			case "right":
 				directionMotorControl.right(200);
+				System.out.println("right");
 				break;
 			}
 		} catch (SocketException e) {

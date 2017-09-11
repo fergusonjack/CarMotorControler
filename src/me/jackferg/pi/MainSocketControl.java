@@ -13,7 +13,6 @@ public class MainSocketControl {
 	public static void main(String[] args){
 		
 		// Open sockets:
-	    PrintStream toServer = null;
 	    BufferedReader fromServer = null;
 	    Socket server = null;
 	    int port = 4444;
@@ -29,6 +28,22 @@ public class MainSocketControl {
 	    catch (IOException e) {
 	      Report.errorAndGiveUp("The server doesn't seem to be running " + e.getMessage());
 	    }
+	    
+	    CarControlThread carControlThread = new CarControlThread(fromServer);
+	    carControlThread.start();
+	    
+	    
+	    try {
+	        carControlThread.join();
+	        fromServer.close();
+	        server.close();
+	      }
+	      catch (IOException e) {
+	        Report.errorAndGiveUp("Something wrong " + e.getMessage());
+	      }
+	      catch (InterruptedException e) {
+	        Report.errorAndGiveUp("Unexpected interruption " + e.getMessage());
+	      }
 		
 	    
 	}
