@@ -1,4 +1,3 @@
-//need to add sockets in to communicate with java and therefore pi4j
 
 <?php
 /* Allow the script to hang around waiting for connections. */
@@ -8,8 +7,8 @@ set_time_limit(0);
  * as it comes in. */
 ob_implicit_flush();
 
-$address = '127.0.0.1';
-$port = 4444;
+$address = 'localhost';
+$port = 4445;
 $inside = true;
 $outside = true;
 

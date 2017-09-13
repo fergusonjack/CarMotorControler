@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -12,39 +13,39 @@ import java.net.UnknownHostException;
 public class MainSocketControl {
 	public static void main(String[] args){
 		
-		// Open sockets:
-	    BufferedReader fromServer = null;
-	    Socket server = null;
-	    int port = 4444;
-	    String hostname = "localhost";
+		ServerSocket serverSocket = null;
+		int port = 4445;
 
-	    try {
-	      server = new Socket(hostname , port); 
-	      fromServer = new BufferedReader(new InputStreamReader(server.getInputStream()));
-	    } 
-	    catch (UnknownHostException e) {
-	      Report.errorAndGiveUp("Unknown host: " + hostname);
-	    } 
-	    catch (IOException e) {
-	      Report.errorAndGiveUp("The server doesn't seem to be running " + e.getMessage());
-	    }
+		try {
+			serverSocket = new ServerSocket(port);
+		} catch (IOException e) {
+			Report.errorAndGiveUp("Couldn't listen on port " + port);
+		}		
 	    
-	    CarControlThread carControlThread = new CarControlThread(fromServer);
-	    carControlThread.start();
-	    
-	    
-	    try {
-	        carControlThread.join();
-	        fromServer.close();
-	        server.close();
-	      }
-	      catch (IOException e) {
-	        Report.errorAndGiveUp("Something wrong " + e.getMessage());
-	      }
-	      catch (InterruptedException e) {
-	        Report.errorAndGiveUp("Unexpected interruption " + e.getMessage());
-	      }
+		try {
+			// We loop for ever, as servers usually do.
+			while (true) {
+				// Listen to the socket, accepting connections from new clients:
+				Socket socket = serverSocket.accept(); // Matches AAAAA in
+														// Client.java
+
+				// This is so that we can use readLine():
+				BufferedReader fromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+				// client name is now added to the client table in
+				// ServerReceiver
+
+				Report.behaviour("system has connected");
+
+				// We create and start a new thread to read from the client:
+				(new CarControlThread(fromClient)).start();
+
+				// server sender now gets opened in the ServerReceiver
+			}
+		} catch (IOException e) {
+			// Lazy approach:
+			Report.error("IO error " + e.getMessage());
+		}
 		
-	    
 	}
 }
