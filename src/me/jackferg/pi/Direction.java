@@ -19,39 +19,39 @@ l293D chip
 */
 
 public class Direction {
-	public GpioPinDigitalOutput Motor1A;
-	public GpioPinDigitalOutput Motor1B;
-	public GpioPinDigitalOutput Motor1E;
+	public GpioPinDigitalOutput Motor2A;
+	public GpioPinDigitalOutput Motor2B;
+	public GpioPinDigitalOutput Motor2E;
 	
 	public Direction(GpioController gpio){
-		Motor1A = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "A", PinState.LOW);
-		Motor1B = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05, "B", PinState.LOW);
-		Motor1E = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_06, "E", PinState.LOW);		
+		Motor2A = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "A", PinState.LOW);
+		Motor2B = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05, "B", PinState.LOW);
+		Motor2E = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_06, "E", PinState.LOW);		
 	}
 	
 	public void left(float time){
-		Motor1A.high();
-		Motor1B.low();
-		Motor1E.high();
+		Motor2A.high();
+		Motor2B.low();
+		Motor2E.high();
 		try {
 			Thread.sleep((long) time);
 		} catch (InterruptedException e) {
 			System.out.println("moving left, front motor error");
 		}
-		Motor1A.low();
-		Motor1E.low();
+		Motor2A.low();
+		Motor2E.low();
 	}
 	
 	public void right(float time){
-		Motor1A.low();
-		Motor1B.high();
-		Motor1E.high();
+		Motor2A.low();
+		Motor2B.high();
+		Motor2E.high();
 		try {
 			Thread.sleep((long) time);
 		} catch (InterruptedException e) {
 			System.out.println("moving right, front motor error");
 		}
-		Motor1B.low();
-		Motor1E.low();
+		Motor2B.low();
+		Motor2E.low();
 	}
 }

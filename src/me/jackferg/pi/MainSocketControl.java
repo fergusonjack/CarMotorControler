@@ -14,7 +14,7 @@ public class MainSocketControl {
 	public static void main(String[] args){
 		
 		ServerSocket serverSocket = null;
-		int port = 4445;
+		int port = 6729;
 
 		try {
 			serverSocket = new ServerSocket(port);
@@ -26,8 +26,8 @@ public class MainSocketControl {
 			// We loop for ever, as servers usually do.
 			while (true) {
 				// Listen to the socket, accepting connections from new clients:
-				Socket socket = serverSocket.accept(); // Matches AAAAA in
-														// Client.java
+				Socket socket = serverSocket.accept(); 
+														
 
 				// This is so that we can use readLine():
 				BufferedReader fromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));

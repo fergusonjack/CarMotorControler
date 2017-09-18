@@ -19,40 +19,40 @@ l293D chip
 */
 
 public class BackMotorControl {
-	public GpioPinDigitalOutput Motor2A;
-	public GpioPinDigitalOutput Motor2B;
-	public GpioPinDigitalOutput Motor2E;
+	public GpioPinDigitalOutput Motor1A;
+	public GpioPinDigitalOutput Motor1B;
+	public GpioPinDigitalOutput Motor1E;
 	
 	public BackMotorControl(GpioController gpio) {
-		Motor2A = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_14, "A", PinState.LOW);
-		Motor2B = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_13, "B", PinState.LOW);
-		Motor2E = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_12, "E", PinState.LOW);
+		Motor1A = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_14, "A", PinState.LOW);
+		Motor1B = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_13, "B", PinState.LOW);
+		Motor1E = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_12, "E", PinState.LOW);
 	}
 	
 	public void forward(float time){
-		Motor2A.high();
-		Motor2B.low();
-		Motor2E.high();
+		Motor1A.high();
+		Motor1B.low();
+		Motor1E.high();
 		try {
 			Thread.sleep((long) time);
 		} catch (InterruptedException e) {
 			System.out.println("moving forward, back motor error");
 		}
-		Motor2A.low();
-		Motor2E.low();
+		Motor1A.low();
+		Motor1E.low();
 	}
 	
 	public void back(float time){
-		Motor2A.low();
-		Motor2B.high();
-		Motor2E.high();
+		Motor1A.low();
+		Motor1B.high();
+		Motor1E.high();
 		try {
 			Thread.sleep((long) time);
 		} catch (InterruptedException e) {
 			System.out.println("moving back, back motor error");
 		}
-		Motor2B.low();
-		Motor2E.low();
+		Motor1B.low();
+		Motor1E.low();
 	}
 
 }
