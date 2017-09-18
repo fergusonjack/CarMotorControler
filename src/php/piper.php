@@ -1,7 +1,7 @@
 
 <?php
 $address = 'localhost';
-$port = 6749;
+$port = 6729;
 $data = "up";
 
 if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
